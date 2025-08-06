@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Guide - StyleVogue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #1a1a1a;
+            --primary-white: #ffffff;
+            --gray-light: #f5f5f5;
+            --gray-medium: #e0e0e0;
+            --gray-dark: #666666;
+            --accent-pink: #ff69b4;
+            --accent-mint: #98d8c8;
+            --accent-blue: #87ceeb;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-black);
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--primary-black) 0%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--primary-black);
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-link.active {
+            color: var(--accent-pink);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-pink);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--gray-light) 0%, #fff 100%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--primary-black);
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--gray-dark);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Style Categories */
+        .categories-section {
+            padding: 80px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent-pink);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .category-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .category-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.8), rgba(152, 216, 200, 0.8));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .category-card:hover .category-overlay {
+            opacity: 1;
+        }
+
+        .category-overlay h3 {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .category-content {
+            padding: 30px;
+        }
+
+        .category-content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--primary-black);
+        }
+
+        .category-content p {
+            color: var(--gray-dark);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .style-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            background: var(--gray-light);
+            color: var(--gray-dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            background: var(--accent-pink);
+            color: white;
+        }
+
+        /* Style Tips Section */
+        .tips-section {
+            padding: 80px 20px;
+            background: var(--gray-light);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .tip-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .tip-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-mint));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 36px;
+            color: white;
+        }
+
+        .tip-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary-black);
+        }
+
+        .tip-card p {
+            color: var(--gray-dark);
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-black);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--gray-medium);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .categories-grid,
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">StyleVogue</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="style-guide.html" class="nav-link active">Style Guide</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="recommendations.html" class="nav-link">Recommendations</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Style Guide</h1>
+            <p>Discover your perfect style with our comprehensive guide to fashion and personal expression</p>
+        </div>
+    </section>
+
+    <!-- Style Categories -->
+    <section class="categories-section">
+        <div class="container">
+            <h2 class="section-title">Style Categories</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80');">
+                        <div class="category-overlay">
+                            <h3>Casual Chic</h3>
+                        </div>
+                    </div>
+                    <div class="category-content">
+                        <h3>Casual Chic</h3>
+                        <p>Effortlessly stylish looks perfect for everyday wear. Combine comfort with sophistication for a polished yet relaxed appearance.</p>
+                        <div class="style-tags">
+                            <span class="tag">Denim</span>
+                            <span class="tag">Blazers</span>
+                            <span class="tag">Sneakers</span>
+                            <span class="tag">Minimalist</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&q=80');">
+                        <div class="category-overlay">
+                            <h3>Street Style</h3>
+                        </div>
+                    </div>
+                    <div class="category-content">
+                        <h3>Street Style</h3>
+                        <p>Bold, urban fashion that makes a statement. Mix patterns, textures, and unexpected combinations for an edgy, contemporary look.</p>
+                        <div class="style-tags">
+                            <span class="tag">Oversized</span>
+                            <span class="tag">Graphics</span>
+                            <span class="tag">Layers</span>
+                            <span class="tag">Bold Colors</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80');">
+                        <div class="category-overlay">
+                            <h3>Business Elegant</h3>
+                        </div>
+                    </div>
+                    <div class="category-content">
+                        <h3>Business Elegant</h3>
+                        <p>Professional attire with a modern twist. Clean lines, quality fabrics, and attention to detail create a powerful, confident image.</p>
+                        <div class="style-tags">
+                            <span class="tag">Tailored</span>
+                            <span class="tag">Neutral Tones</span>
+                            <span class="tag">Classic</span>
+                            <span class="tag">Structured</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80');">
+                        <div class="category-overlay">
+                            <h3>Evening Glamour</h3>
+                        </div>
+                    </div>
+                    <div class="category-content">
+                        <h3>Evening Glamour</h3>
+                        <p>Sophisticated elegance for special occasions. Rich fabrics, dramatic silhouettes, and luxurious details create unforgettable looks.</p>
+                        <div class="style-tags">
+                            <span class="tag">Sequins</span>
+                            <span class="tag">Silk</span>
+                            <span class="tag">Statement</span>
+                            <span class="tag">Glamorous</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80');">
+                        <div class="category-overlay">
+                            <h3>Bohemian Spirit</h3>
+                        </div>
+                    </div>
+                    <div class="category-content">
+                        <h3>Bohemian Spirit</h3>
+                        <p>Free-spirited fashion with an artistic flair. Flowing fabrics, earth tones, and eclectic accessories create a relaxed, creative vibe.</p>
+                        <div class="style-tags">
+                            <span class="tag">Flowy</span>
+                            <span class="tag">Patterns</span>
+                            <span class="tag">Natural</span>
+                            <span class="tag">Layered</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1560243563-062bfc001d68?w=600&q=80');">
+                        <div class="category-overlay">
+                            <h3>Minimalist Modern</h3>
+                        </div>
+                    </div>
+                    <div class="category-content">
+                        <h3>Minimalist Modern</h3>
+                        <p>Clean, sophisticated style focused on quality over quantity. Simple silhouettes and neutral colors create timeless, versatile looks.</p>
+                        <div class="style-tags">
+                            <span class="tag">Clean Lines</span>
+                            <span class="tag">Monochrome</span>
+                            <span class="tag">Quality</span>
+                            <span class="tag">Simple</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Styling Tips -->
+    <section class="tips-section">
+        <div class="container">
+            <h2 class="section-title">Expert Styling Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">👗</div>
+                    <h3>Know Your Body Type</h3>
+                    <p>Understanding your body shape helps you choose flattering silhouettes and create balanced, confident looks that enhance your best features.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">🎨</div>
+                    <h3>Color Coordination</h3>
+                    <p>Learn which colors complement your skin tone and how to create harmonious color palettes that make you look vibrant and healthy.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">💎</div>
+                    <h3>Accessorize Wisely</h3>
+                    <p>The right accessories can transform any outfit. Learn to balance statement pieces with subtle accents for maximum impact.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">👟</div>
+                    <h3>Foundation Pieces</h3>
+                    <p>Invest in quality basics that form the foundation of your wardrobe. These versatile pieces can be styled multiple ways.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">✨</div>
+                    <h3>Personal Expression</h3>
+                    <p>Fashion is about expressing your personality. Don't be afraid to experiment and make trends work for your unique style.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">🌟</div>
+                    <h3>Confidence is Key</h3>
+                    <p>The most important accessory is confidence. Wear what makes you feel good and carry yourself with poise and self-assurance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 StyleVogue. All rights reserved. | <a href="privacy-policy.html" style="color: var(--gray-medium); text-decoration: none;">Privacy Policy</a> | <a href="terms-of-service.html" style="color: var(--gray-medium); text-decoration: none;">Terms of Service</a></p>
+        </div>
+    </footer>
+</body>
+</html>

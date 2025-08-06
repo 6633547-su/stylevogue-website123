@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - StyleVogue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #1a1a1a;
+            --primary-white: #ffffff;
+            --gray-light: #f5f5f5;
+            --gray-medium: #e0e0e0;
+            --gray-dark: #666666;
+            --accent-pink: #ff69b4;
+            --accent-mint: #98d8c8;
+            --accent-blue: #87ceeb;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-black);
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--primary-black) 0%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--primary-black);
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-link.active {
+            color: var(--accent-pink);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-pink);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--primary-black) 0%, var(--gray-dark) 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Mission Section */
+        .mission-section {
+            padding: 80px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mission-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .mission-text h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: var(--primary-black);
+        }
+
+        .mission-text p {
+            font-size: 18px;
+            color: var(--gray-dark);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .mission-image {
+            height: 400px;
+            background: url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600') center/cover;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 80px 20px;
+            background: var(--gray-light);
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent-pink);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .value-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-mint));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 36px;
+            color: white;
+        }
+
+        .value-card h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--primary-black);
+        }
+
+        .value-card p {
+            color: var(--gray-dark);
+            line-height: 1.8;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 80px 20px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .team-image {
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .team-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.8), rgba(152, 216, 200, 0.8));
+            opacity: 0;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-card:hover .team-overlay {
+            opacity: 1;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-black);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            transform: scale(1.1);
+        }
+
+        .team-content {
+            padding: 30px;
+        }
+
+        .team-name {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--primary-black);
+        }
+
+        .team-role {
+            color: var(--accent-pink);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .team-bio {
+            color: var(--gray-dark);
+            line-height: 1.6;
+        }
+
+        /* Story Section */
+        .story-section {
+            padding: 80px 20px;
+            background: var(--gray-light);
+        }
+
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .story-content h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: var(--primary-black);
+        }
+
+        .story-content p {
+            font-size: 18px;
+            color: var(--gray-dark);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent-pink);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--gray-dark);
+            margin-top: 10px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 20px;
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-pink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 24px;
+        }
+
+        .contact-item h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--primary-black);
+        }
+
+        .contact-item p {
+            color: var(--gray-dark);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-black);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--gray-medium);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .mission-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .team-grid,
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">StyleVogue</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="style-guide.html" class="nav-link">Style Guide</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="recommendations.html" class="nav-link">Recommendations</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>About StyleVogue</h1>
+            <p>Empowering individuals to discover and express their unique style through personalized fashion guidance and expert insights</p>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission-section">
+        <div class="container">
+            <div class="mission-content">
+                <div class="mission-text">
+                    <h2>Our Mission</h2>
+                    <p>At StyleVogue, we believe that fashion is a powerful form of self-expression. Our mission is to democratize style by making expert fashion advice accessible to everyone, regardless of budget or background.</p>
+                    <p>We combine cutting-edge technology with human expertise to deliver personalized styling recommendations that help you look and feel your absolute best. Every outfit tells a story – let us help you tell yours.</p>
+                    <p>Through our platform, we aim to build confidence, inspire creativity, and celebrate the unique beauty in every individual's personal style journey.</p>
+                </div>
+                <div class="mission-image"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="container">
+            <h2 class="section-title">Our Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">🌟</div>
+                    <h3>Authenticity</h3>
+                    <p>We believe in celebrating your unique style rather than following trends blindly. Your authentic self is the most beautiful version of you.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">💚</div>
+                    <h3>Sustainability</h3>
+                    <p>We promote conscious fashion choices that are both stylish and environmentally responsible. Quality over quantity, always.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h3>Inclusivity</h3>
+                    <p>Fashion is for everyone. We celebrate all body types, ages, and personal styles. Everyone deserves to feel confident and beautiful.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">✨</div>
+                    <h3>Innovation</h3>
+                    <p>We constantly evolve our technology and approach to provide the most personalized and effective styling solutions available.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title">Meet Our Team</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-image" style="background-image: url('https://images.unsplash.com/photo-1494790108755-2616b73d71fc?w=400');">
+                        <div class="team-overlay">
+                            <div class="social-links">
+                                <a href="#" class="social-link">📧</a>
+                                <a href="#" class="social-link">🔗</a>
+                                <a href="#" class="social-link">📷</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-content">
+                        <h3 class="team-name">Sarah Chen</h3>
+                        <p class="team-role">Founder & Creative Director</p>
+                        <p class="team-bio">Former fashion editor with 15+ years of experience. Sarah's vision and passion for sustainable fashion drives StyleVogue's mission.</p>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-image" style="background-image: url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400');">
+                        <div class="team-overlay">
+                            <div class="social-links">
+                                <a href="#" class="social-link">📧</a>
+                                <a href="#" class="social-link">🔗</a>
+                                <a href="#" class="social-link">💼</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-content">
+                        <h3 class="team-name">Alex Rivera</h3>
+                        <p class="team-role">Head of Technology</p>
+                        <p class="team-bio">AI and machine learning expert who developed our personalization algorithms. Alex ensures our tech delivers truly personalized experiences.</p>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-image" style="background-image: url('https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400');">
+                        <div class="team-overlay">
+                            <div class="social-links">
+                                <a href="#" class="social-link">📧</a>
+                                <a href="#" class="social-link">🔗</a>
+                                <a href="#" class="social-link">📱</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-content">
+                        <h3 class="team-name">Emma Johnson</h3>
+                        <p class="team-role">Senior Style Consultant</p>
+                        <p class="team-bio">Celebrity stylist turned educator. Emma brings high-fashion expertise to everyday styling, making luxury accessible to all.</p>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-image" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400');">
+                        <div class="team-overlay">
+                            <div class="social-links">
+                                <a href="#" class="social-link">📧</a>
+                                <a href="#" class="social-link">🔗</a>
+                                <a href="#" class="social-link">💼</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-content">
+                        <h3 class="team-name">David Kim</h3>
+                        <p class="team-role">Marketing Director</p>
+                        <p class="team-bio">Brand strategist with a passion for storytelling. David helps communicate our mission and connect with style enthusiasts worldwide.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story-section">
+        <div class="container">
+            <div class="story-content">
+                <h2>Our Story</h2>
+                <p>StyleVogue was born from a simple observation: everyone deserves access to expert fashion advice, but traditional styling services were expensive and exclusive. In 2020, our founder Sarah Chen decided to change that.</p>
+                <p>Starting as a small blog sharing styling tips, we quickly grew into a comprehensive platform serving fashion enthusiasts worldwide. Today, we combine artificial intelligence with human expertise to deliver personalized styling at scale.</p>
+                <p>Our journey has been driven by our community's success stories – seeing someone discover their confidence through style never gets old.</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">50K+</span>
+                    <p class="stat-label">Happy Clients</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <p class="stat-label">Style Guides</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">95%</span>
+                    <p class="stat-label">Satisfaction Rate</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <p class="stat-label">Support Available</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-content">
+                <h2 class="section-title">Get in Touch</h2>
+                <p style="font-size: 18px; color: var(--gray-dark); margin-bottom: 40px;">Have questions or want to learn more about our services? We'd love to hear from you!</p>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <h3>Email Us</h3>
+                        <p>hello@stylevogue.com<br>support@stylevogue.com</p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <h3>Call Us</h3>
+                        <p>+1 (555) 123-4567<br>Mon-Fri, 9AM-6PM EST</p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <h3>Visit Us</h3>
+                        <p>123 Fashion Avenue<br>New York, NY 10001</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 StyleVogue. All rights reserved. | <a href="privacy-policy.html" style="color: var(--gray-medium); text-decoration: none;">Privacy Policy</a> | <a href="terms-of-service.html" style="color: var(--gray-medium); text-decoration: none;">Terms of Service</a></p>
+        </div>
+    </footer>
+</body>
+</html>

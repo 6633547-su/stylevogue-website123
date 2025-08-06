@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Recommendations - StyleVogue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #1a1a1a;
+            --primary-white: #ffffff;
+            --gray-light: #f5f5f5;
+            --gray-medium: #e0e0e0;
+            --gray-dark: #666666;
+            --accent-pink: #ff69b4;
+            --accent-mint: #98d8c8;
+            --accent-blue: #87ceeb;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-black);
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--primary-black) 0%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--primary-black);
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-link.active {
+            color: var(--accent-pink);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-pink);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-mint) 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .quiz-btn {
+            background: white;
+            color: var(--primary-black);
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            padding: 80px 20px;
+            background: var(--gray-light);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .quiz-container.active {
+            display: block;
+        }
+
+        .quiz-progress {
+            background: var(--gray-light);
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-mint));
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question {
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        .question-title {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--primary-black);
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .quiz-option {
+            background: var(--gray-light);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quiz-option:hover {
+            background: var(--gray-medium);
+        }
+
+        .quiz-option.selected {
+            background: rgba(255, 105, 180, 0.1);
+            border-color: var(--accent-pink);
+        }
+
+        .option-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-pink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .quiz-btn-secondary {
+            background: var(--gray-medium);
+            color: var(--primary-black);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-btn-primary {
+            background: var(--accent-pink);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-btn-primary:hover,
+        .quiz-btn-secondary:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Results Section */
+        .results-section {
+            padding: 80px 20px;
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .results-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent-pink);
+        }
+
+        .style-profile {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .profile-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-mint));
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .profile-description {
+            font-size: 18px;
+            color: var(--gray-dark);
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .recommendation-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .recommendation-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .recommendation-content {
+            padding: 25px;
+        }
+
+        .recommendation-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--primary-black);
+        }
+
+        .recommendation-description {
+            color: var(--gray-dark);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .recommendation-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .rec-tag {
+            background: var(--gray-light);
+            color: var(--gray-dark);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        /* Personal Stylist Section */
+        .stylist-section {
+            padding: 80px 20px;
+            background: var(--gray-light);
+        }
+
+        .stylist-card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .stylist-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-mint));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 40px;
+            color: white;
+        }
+
+        .consultation-btn {
+            background: var(--accent-pink);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .consultation-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-black);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--gray-medium);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .quiz-container {
+                padding: 30px 20px;
+            }
+
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">StyleVogue</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="style-guide.html" class="nav-link">Style Guide</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="recommendations.html" class="nav-link active">Recommendations</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Personal Recommendations</h1>
+            <p>Take our style quiz to get personalized fashion recommendations tailored just for you</p>
+            <button class="quiz-btn" onclick="startQuiz()">Start Style Quiz</button>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section class="quiz-section">
+        <div class="container">
+            <div class="quiz-container" id="quizContainer">
+                <div class="quiz-progress">
+                    <div class="quiz-progress-bar" id="progressBar"></div>
+                </div>
+
+                <!-- Question 1 -->
+                <div class="quiz-question active" data-question="1">
+                    <h2 class="question-title">What's your lifestyle like?</h2>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-value="professional">
+                            <div class="option-icon">💼</div>
+                            <div>
+                                <strong>Professional & Busy</strong><br>
+                                Office meetings, networking events, formal occasions
+                            </div>
+                        </div>
+                        <div class="quiz-option" data-value="casual">
+                            <div class="option-icon">🏠</div>
+                            <div>
+                                <strong>Casual & Relaxed</strong><br>
+                                Work from home, casual outings, comfort-focused
+                            </div>
+                        </div>
+                        <div class="quiz-option" data-value="social">
+                            <div class="option-icon">🎉</div>
+                            <div>
+                                <strong>Social & Active</strong><br>
+                                Parties, events, concerts, social gatherings
+                            </div>
+                        </div>
+                        <div class="quiz-option" data-value="creative">
+                            <div class="option-icon">🎨</div>
+                            <div>
+                                <strong>Creative & Artistic</strong><br>
+                                Gallery openings, creative work, self-expression
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="quiz-question" data-question="2">
+                    <h2 class="question-title">What's your preferred color palette?</h2>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-value="neutrals">
+                            <div class="option-icon">⚪</div>
+                            <div>
+                                <strong>Neutrals & Earth Tones</strong><br>
+                                Beige, brown, cream, black, white
+                            </div>
+                        </div>
+                        <div class="quiz-option" data-value="bold">
+                            <div class="option-icon">🌈</div>
+                            <div>
+                                <strong>Bold & Vibrant</strong><br>
+                                Bright colors, neon accents, eye-catching hues
+                            </div>
+                        </div>
+                        <div class="quiz-option" data-value="pastels">
+                            <div class="option-icon">🌸</div>
+                            <div>
+                                <strong>Soft Pastels</strong><br>
+                                Pale pink, mint green, lavender, soft blue
+                            </div>
+                        </div>
+                        <div class="quiz-option" data-value="monochrome">
+                            <div class="option-icon">⚫</div>
+                            <div>
+                                <strong>Monochrome</strong><br>
+                                Black, white, and shades of gray
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="quiz-question" data-question="3">
+                    <h2 class="question-title">What's your preferred fit and silhouette?</h2>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-value="fitted">
+                            <div class="option-icon">👔</div>
+                            <div>
+                                <strong>Fitted & Tailored</strong><br>
+                                Body-hugging, structured, defined waistlines
+                            </div>
+                        </div>
+                        <div class="quiz-option" data-value="loose">
+                            <div class="option-icon">👕</div>
+                            <div>
+                                <strong>Loose & Flowy</strong><br>
+                                Oversized, relaxed, comfortable movement
+                            </div>
+                        </div>
+                        <div class="quiz-option" data-value="structured">
+                            <div class="option-icon">🧥</div>
+                            <div>
+                                <strong>Structured & Sharp</strong><br>
+                                Blazers, crisp lines, architectural shapes
+                            </div>
+                        </div>
+                        <div class="quiz-option" data-value="bohemian">
+                            <div class="option-icon">🌿</div>
+                            <div>
+                                <strong>Bohemian & Free-flowing</strong><br>
+                                Maxi dresses, layered looks, natural draping
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-navigation">
+                    <button class="quiz-btn-secondary" id="prevBtn" onclick="prevQuestion()" style="display: none;">Previous</button>
+                    <button class="quiz-btn-primary" id="nextBtn" onclick="nextQuestion()">Next</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section" id="resultsSection">
+        <div class="results-container">
+            <h2 class="section-title">Your Style Profile</h2>
+            
+            <div class="style-profile">
+                <div class="profile-badge" id="styleProfile">Modern Minimalist</div>
+                <p class="profile-description" id="profileDescription">
+                    You have a sophisticated taste for clean lines and timeless pieces. Your style is effortlessly chic with a focus on quality over quantity.
+                </p>
+            </div>
+
+            <h3 style="text-align: center; margin-bottom: 30px; font-size: 28px;">Recommended for You</h3>
+
+            <div class="recommendations-grid" id="recommendationsGrid">
+                <!-- Recommendations will be dynamically generated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Stylist Section -->
+    <section class="stylist-section">
+        <div class="container">
+            <div class="stylist-card">
+                <div class="stylist-icon">👩‍💼</div>
+                <h2>Want More Personalized Advice?</h2>
+                <p style="font-size: 18px; color: var(--gray-dark); margin: 20px 0;">Book a one-on-one consultation with our expert stylists for a completely customized style makeover.</p>
+                <button class="consultation-btn">Book Consultation</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 StyleVogue. All rights reserved. | <a href="privacy-policy.html" style="color: var(--gray-medium); text-decoration: none;">Privacy Policy</a> | <a href="terms-of-service.html" style="color: var(--gray-medium); text-decoration: none;">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        let currentQuestion = 1;
+        const totalQuestions = 3;
+        const answers = {};
+
+        const styleProfiles = {
+            'professional-neutrals-fitted': {
+                name: 'Business Elegant',
+                description: 'You embody sophisticated professionalism with a taste for timeless, well-tailored pieces that command respect in any boardroom.',
+                recommendations: [
+                    {
+                        title: 'Tailored Blazer Collection',
+                        description: 'Invest in high-quality blazers in navy, black, and gray for versatile professional looks.',
+                        image: 'https://images.unsplash.com/photo-1479064555552-3ef4979f8908?w=400',
+                        tags: ['Professional', 'Tailored', 'Timeless']
+                    },
+                    {
+                        title: 'Classic Shift Dresses',
+                        description: 'Elegant dresses that transition seamlessly from office to evening events.',
+                        image: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400',
+                        tags: ['Versatile', 'Elegant', 'Professional']
+                    }
+                ]
+            },
+            'casual-pastels-loose': {
+                name: 'Casual Chic',
+                description: 'You love comfort without sacrificing style, preferring soft colors and relaxed fits that feel as good as they look.',
+                recommendations: [
+                    {
+                        title: 'Cozy Knit Sweaters',
+                        description: 'Soft, oversized sweaters in pastel tones perfect for comfortable yet stylish days.',
+                        image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400',
+                        tags: ['Comfortable', 'Soft', 'Relaxed']
+                    },
+                    {
+                        title: 'Flowy Midi Skirts',
+                        description: 'Feminine and comfortable skirts that move with you throughout your day.',
+                        image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400',
+                        tags: ['Feminine', 'Comfortable', 'Versatile']
+                    }
+                ]
+            },
+            default: {
+                name: 'Modern Minimalist',
+                description: 'You have a sophisticated taste for clean lines and timeless pieces. Your style is effortlessly chic with a focus on quality over quantity.',
+                recommendations: [
+                    {
+                        title: 'Essential White Shirt',
+                        description: 'A crisp, perfectly fitted white shirt that works for any occasion.',
+                        image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=400',
+                        tags: ['Essential', 'Versatile', 'Timeless']
+                    },
+                    {
+                        title: 'Classic Trench Coat',
+                        description: 'The perfect outerwear piece that adds sophistication to any outfit.',
+                        image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400',
+                        tags: ['Classic', 'Sophisticated', 'Timeless']
+                    },
+                    {
+                        title: 'Black Leather Handbag',
+                        description: 'A structured bag that complements your minimalist aesthetic.',
+                        image: 'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400',
+                        tags: ['Essential', 'Structured', 'Quality']
+                    }
+                ]
+            }
+        };
+
+        function startQuiz() {
+            document.querySelector('.quiz-section').style.display = 'block';
+            document.getElementById('quizContainer').classList.add('active');
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion - 1) / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function nextQuestion() {
+            const currentQuestionEl = document.querySelector(`[data-question="${currentQuestion}"]`);
+            const selected = currentQuestionEl.querySelector('.quiz-option.selected');
+            
+            if (!selected) {
+                alert('Please select an option before continuing.');
+                return;
+            }
+
+            // Save answer
+            answers[`question${currentQuestion}`] = selected.dataset.value;
+
+            if (currentQuestion < totalQuestions) {
+                // Hide current question
+                currentQuestionEl.classList.remove('active');
+                
+                // Show next question
+                currentQuestion++;
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('active');
+                
+                // Update navigation
+                document.getElementById('prevBtn').style.display = 'block';
+                if (currentQuestion === totalQuestions) {
+                    document.getElementById('nextBtn').textContent = 'Get Results';
+                    document.getElementById('nextBtn').onclick = showResults;
+                }
+                
+                updateProgress();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                // Hide current question
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.remove('active');
+                
+                // Show previous question
+                currentQuestion--;
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('active');
+                
+                // Update navigation
+                if (currentQuestion === 1) {
+                    document.getElementById('prevBtn').style.display = 'none';
+                }
+                document.getElementById('nextBtn').textContent = 'Next';
+                document.getElementById('nextBtn').onclick = nextQuestion;
+                
+                updateProgress();
+            }
+        }
+
+        function showResults() {
+            const currentQuestionEl = document.querySelector(`[data-question="${currentQuestion}"]`);
+            const selected = currentQuestionEl.querySelector('.quiz-option.selected');
+            
+            if (!selected) {
+                alert('Please select an option before continuing.');
+                return;
+            }
+
+            // Save final answer
+            answers[`question${currentQuestion}`] = selected.dataset.value;
+
+            // Generate profile key
+            const profileKey = `${answers.question1}-${answers.question2}-${answers.question3}`;
+            const profile = styleProfiles[profileKey] || styleProfiles.default;
+
+            // Hide quiz, show results
+            document.querySelector('.quiz-section').style.display = 'none';
+            document.getElementById('resultsSection').classList.add('active');
+
+            // Update profile display
+            document.getElementById('styleProfile').textContent = profile.name;
+            document.getElementById('profileDescription').textContent = profile.description;
+
+            // Generate recommendations
+            const recommendationsGrid = document.getElementById('recommendationsGrid');
+            recommendationsGrid.innerHTML = '';
+
+            profile.recommendations.forEach(rec => {
+                const recCard = document.createElement('div');
+                recCard.className = 'recommendation-card';
+                recCard.innerHTML = `
+                    <div class="recommendation-image" style="background-image: url('${rec.image}');"></div>
+                    <div class="recommendation-content">
+                        <h3 class="recommendation-title">${rec.title}</h3>
+                        <p class="recommendation-description">${rec.description}</p>
+                        <div class="recommendation-tags">
+                            ${rec.tags.map(tag => `<span class="rec-tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                recommendationsGrid.appendChild(recCard);
+            });
+        }
+
+        // Option selection
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.quiz-option')) {
+                const option = e.target.closest('.quiz-option');
+                const question = option.closest('.quiz-question');
+                
+                // Remove selected class from all options in this question
+                question.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked option
+                option.classList.add('selected');
+            }
+        });
+
+        // Consultation booking
+        document.querySelector('.consultation-btn').addEventListener('click', function() {
+            alert('Thank you for your interest! Our team will contact you within 24 hours to schedule your consultation.');
+        });
+    </script>
+</body>
+</html>
